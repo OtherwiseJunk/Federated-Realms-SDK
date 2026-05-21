@@ -1,0 +1,11 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+lib/
+
+# Source maps and TS build info
+*.js.map
+*.d.ts.map
+*.tsbuildinfo

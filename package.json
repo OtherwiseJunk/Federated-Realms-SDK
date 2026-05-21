@@ -1,0 +1,23 @@
+{
+  "name": "federated-realms-sdk",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "bun run --filter '*' build",
+    "test": "bun test --recursive",
+    "typecheck": "tsc --noEmit",
+    "lint": "oxlint --deny-warnings packages/",
+    "fmt": "oxfmt --write packages/",
+    "fmt:check": "oxfmt --check packages/"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.3.10",
+    "typescript": "^5.7.0"
+  },
+  "dependencies": {
+    "oxfmt": "^0.36.0",
+    "oxlint": "^1.51.0"
+  }
+}
