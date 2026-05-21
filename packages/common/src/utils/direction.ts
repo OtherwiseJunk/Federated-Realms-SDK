@@ -1,5 +1,6 @@
 import type { Direction } from "@realms/lexicons";
 
+/** Maps shorthand and full direction strings to canonical Direction values. */
 export const DIRECTION_ALIASES: Record<string, Direction> = {
   n: "north",
   s: "south",
@@ -23,6 +24,7 @@ export const DIRECTION_ALIASES: Record<string, Direction> = {
   southwest: "southwest",
 };
 
+/** Maps each Direction to its opposite, used for two-way exit linking. */
 export const OPPOSITE_DIRECTION: Record<Direction, Direction> = {
   north: "south",
   south: "north",
@@ -36,10 +38,12 @@ export const OPPOSITE_DIRECTION: Record<Direction, Direction> = {
   southwest: "northeast",
 };
 
+/** Resolve a direction string (shorthand or full) to a canonical Direction, or undefined if unrecognized. */
 export function resolveDirection(input: string): Direction | undefined {
   return DIRECTION_ALIASES[input.toLowerCase()];
 }
 
+/** Type guard — returns true if the string is a valid canonical Direction. */
 export function isDirection(input: string): input is Direction {
   return resolveDirection(input) !== undefined;
 }

@@ -1,5 +1,6 @@
 import { resolveDirection } from "../utils/direction.js";
 
+/** Normalized result of parsing a raw player input string. */
 export interface ParsedCommand {
   verb: string;
   args: string[];
@@ -31,6 +32,11 @@ const DIRECTION_VERBS = new Set([
   "southwest",
 ]);
 
+/**
+ * Parse a raw input string into a normalized command. Direction shortcuts (n/s/e/w etc.) are
+ * resolved automatically. Pass an `aliases` map to expand game-specific shorthand
+ * (e.g. `{ k: 'kill', i: 'inventory' }`) before returning.
+ */
 // We parse the command into a standard structure, but we don't enforce strict verb/arg patterns here.
 // The game logic will interpret the verb and args as needed, allowing servers to define their own
 // command sets and parsing rules on top of this basic structure.

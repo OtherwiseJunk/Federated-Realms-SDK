@@ -12,6 +12,7 @@ import type {
 } from "@realms/lexicons";
 import type { ItemInstance } from "./item.js";
 
+/** Full live state of a character in the world — profile fields plus runtime HP/MP/AP, inventory, equipment, and effects. */
 export interface CharacterState extends CharacterProfile {
   currentHp: number;
   maxHp: number;
@@ -26,6 +27,7 @@ export interface CharacterState extends CharacterProfile {
   equipment: Record<string, ItemInstance>;
 }
 
+/** A timed buff or debuff currently applied to a character. */
 export interface ActiveEffect {
   id: string;
   name: string;
@@ -39,6 +41,7 @@ export interface ActiveEffect {
 // A GameSystem defines all the rules a server uses. It's loaded from the
 // server's published system.* records, or from a bundled default.
 
+/** Complete rule configuration for a server — attributes, classes, races, formulas, equipment slots, item types, and spells. Loaded from the server's published AT Proto records. */
 export interface GameSystem {
   attributes: Record<string, AttributeDef>;
   classes: Record<string, ClassDef>;
@@ -53,6 +56,7 @@ export interface GameSystem {
 // Simple expression evaluator for derived stat formulas.
 // Supports: +, -, *, /, parentheses, floor(), ceil(), min(), max(), and variable references.
 
+/** Safely evaluate a formula expression string with variable substitution. Supports +/-/*//, floor/ceil/min/max/abs, and parentheses. Throws on unsafe or invalid expressions. */
 export function evaluateFormula(expression: string, variables: Record<string, number>): number {
   // Replace variable names with their values (longest first to avoid partial matches)
   let expr = expression;
@@ -96,6 +100,7 @@ export function evaluateFormula(expression: string, variables: Record<string, nu
 
 // ── Derived stat computation ──
 
+/** Compute all derived stats (maxHp, maxMp, maxAp, etc.) from a set of formulas, a level, and base attributes. */
 export function computeDerivedStats(
   formulas: Record<string, FormulaDef>,
   level: number,
@@ -116,6 +121,7 @@ export function computeDerivedStats(
 
 // ── Character creation ──
 
+/** Compute a character's starting attributes by applying class and race bonuses on top of system defaults. */
 export function buildAttributes(system: GameSystem, classId: string, raceId: string): Attributes {
   const attrs: Attributes = {};
 
@@ -143,6 +149,7 @@ export function buildAttributes(system: GameSystem, classId: string, raceId: str
   return attrs;
 }
 
+/** Convert a stored CharacterProfile into live CharacterState, computing derived stats and setting starting gold. */
 export function profileToState(
   profile: CharacterProfile,
   currentRoom: string,

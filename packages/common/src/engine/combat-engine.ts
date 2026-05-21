@@ -6,11 +6,13 @@ import type {
 } from "@realms/lexicons";
 import type { ItemInstance } from "../types/item.js";
 
+/** Subset of a server's GameSystem needed for equipment slot resolution. */
 export interface EquipmentConfig {
   equipSlots: Record<string, EquipSlotDef>;
   itemTypes: Record<string, ItemTypeDef>;
 }
 
+/** Roll `count` dice with `sides` faces and return the sum. */
 export function rollDice(count: number, sides: number): number {
   let total = 0;
   for (let i = 0; i < count; i++) {
@@ -76,6 +78,7 @@ export function buildSlotAliases(config: EquipmentConfig): Record<string, string
   return aliases;
 }
 
+/** Sum the `defense` property across all equipped items. */
 export function getEquippedDefense(equipment: Record<string, ItemInstance>): number {
   let total = 0;
   for (const item of Object.values(equipment)) {
@@ -85,6 +88,10 @@ export function getEquippedDefense(equipment: Record<string, ItemInstance>): num
   return total;
 }
 
+/**
+ * Shape returned by an attack resolution function.
+ * Passed to format functions and used to apply damage.
+ */
 export interface AttackResult {
   hit: boolean;
   critical: boolean;
@@ -96,6 +103,10 @@ export interface AttackResult {
   weaponName: string;
 }
 
+/**
+ * Shape returned by a spell resolution function.
+ * Passed to format functions and used to apply effects.
+ */
 export interface SpellResult {
   success: boolean;
   critical: boolean;

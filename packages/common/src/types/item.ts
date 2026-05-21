@@ -1,5 +1,6 @@
 import type { ItemDefinition, ItemProperties } from "@realms/lexicons";
 
+/** A live instance of an item in a player's inventory or on the ground. */
 export interface ItemInstance {
   instanceId: string;
   definitionId: string;
@@ -8,12 +9,15 @@ export interface ItemInstance {
   properties?: ItemProperties;
 }
 
+/** Lookup map from definition ID to item definition. */
 export type ItemRegistry = Map<string, ItemDefinition>;
 
+/** Generate a collision-resistant unique ID for a new item instance. */
 export function generateItemId(): string {
   return `item_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`;
 }
 
+/** Instantiate an item from its definition, clamping quantity to the stack limit. */
 export function createItemInstance(
   definitionId: string,
   definition: ItemDefinition,
